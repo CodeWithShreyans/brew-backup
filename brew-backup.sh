@@ -14,8 +14,12 @@ if [ "$1" == "backup" ]; then
     # Create the backup directory and send output to /dev/null
     mkdir "$backup_path" > /dev/null 2>&1
 
+    file_path="$backup_path/Brewfile-$(date -I seconds | sed "s/+.*//")"
+
     # Run brew bundle dump and save the Brewfile to the backup_path
-    /opt/homebrew/bin/brew bundle dump --file="$backup_path/Brewfile-$(date -I seconds | sed "s/+.*//")"
+    /opt/homebrew/bin/brew bundle dump --file="$file_path"
+
+    echo "Saved Brewfile to $file_path"
 
     # Loop over all files in backup_path sorted by date created and delete all but the latest 10
     # shellcheck disable=SC2012
